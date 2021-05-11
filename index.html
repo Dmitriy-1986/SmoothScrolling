@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth Scrolling</title>
+    <style>
+        body {
+            height: 1500px;
+            background-color: white;
+        }
+
+        /*Smooth Scrolling*/
+        .top-link {
+            -webkit-transition: all 0.25s ease-in-out;
+            -o-transition: all 0.25s ease-in-out;
+            transition: all 0.50s ease-in-out;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            cursor: pointer;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            margin: 0 2em 7.5em 0;
+            border-radius: 5px;
+            padding: 0.25em;
+            width: 40px;
+            height: 30px;
+            background-color: #0056b3;
+
+            z-index: 17;
+        }
+
+        .top-link.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .top-link.hide {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .top-link svg {
+            fill: white;
+            width: 14px;
+            height: 12px;
+        }
+
+        .top-link:hover {
+            background-color: #e8e8e8;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+        }
+
+        .top-link:hover svg {
+            fill: #0056b3;
+        }
+
+        .screen-reader-text {
+            position: absolute;
+            -webkit-clip-path: inset(50%);
+            clip-path: inset(50%);
+            margin: -1px;
+            border: 0;
+            padding: 0;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            word-wrap: normal !important;
+            clip: rect(1px, 1px, 1px, 1px);
+        }
+
+        .screen-reader-text:focus {
+            display: block;
+            top: 5px;
+            left: 5px;
+            z-index: 100000;
+            -webkit-clip-path: none;
+            clip-path: none;
+            background-color: #eee;
+            padding: 15px 23px 14px;
+            width: auto;
+            height: auto;
+            text-decoration: none;
+            line-height: normal;
+            color: #444;
+            font-size: 1em;
+            clip: auto !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center; color: white;">Smooth Scrolling</h1>
+    <div>
+        <a class="top-link show" href="" id="js-top">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6">
+                <path d="M12 6H0l6-6z"></path>
+            </svg>
+            <span class="screen-reader-text">Back to top</span>
+        </a>
+    </div>
+
+    <script>
+        const scrollToTopButton = document.getElementById('js-top');
+        const scrollFunc = () => {
+            let y = window.scrollY;
+            if (y > 0) {
+                scrollToTopButton.className = "top-link show";
+            } else {
+                scrollToTopButton.className = "top-link hide";
+            }
+        };
+
+        window.addEventListener("scroll", scrollFunc);
+
+        const scrollToTop = () => {
+            const c = document.documentElement.scrollTop || document.body.scrollTop;
+            if (c > 0) {
+                window.requestAnimationFrame(scrollToTop);
+                window.scrollTo(0, c - c / 5);
+            }
+        };
+
+        scrollToTopButton.onclick = function (e) {
+            e.preventDefault();
+            scrollToTop();
+        }
+    </script>
+</body>
+
+</html>
